@@ -1,12 +1,10 @@
-<div>
+<div class="container">
     <div class="listBtn"> <button mat-raised-button color="primary" type="submit" (click)="navigate()">User List</button></div>
-    <div fxLayout="column" fxLayoutAlign="center center" class="container">
+    <div fxLayout="column" fxLayoutAlign="center center" >
         <mat-card class="card">
-            <div fxLayout="row" fxLayoutAlign="center start">
                 <mat-card-header>
                     <mat-card-title *ngIf="!isSubmitted">Create User</mat-card-title>
                 </mat-card-header>
-            </div>
             <mat-card-content>
                 <div *ngIf="!isSubmitted">
                     <div class="form">
