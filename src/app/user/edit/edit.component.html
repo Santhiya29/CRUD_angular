@@ -1,12 +1,4 @@
 <div fxLayout="row" fxLayoutAlign="center center" class="container">
-    {{
-        this.previousUserValue?.dob 
-    }}
-    {{isMale
-    }}
-    {{
-        isFemale
-    }}
     <mat-card class="card">
         <div fxLayout="row" fxLayoutAlign="center start">
             <mat-card-header>
@@ -20,55 +12,42 @@
                     <mat-form-field class="field">
                         <mat-label>Name</mat-label>
                         <input matInput placeholder="Name" formControlName="name" required [ngModel]="this.previousUserValue?.name">
-                        <mat-error *ngIf="userForm.get('name')?.invalid &&
-                    userForm.get('name')?.errors && 
-                    (userForm.get('name')?.dirty) ||  userForm.get('name')?.touched">
-                            Please enter a valid name
-                        </mat-error>
-                        <mat-error *ngIf="!userForm.get('name')?.touched">
-                            Name is equired
+                        <mat-error *ngIf="userForm.get('name')?.invalid ||
+                    userForm.get('name')?.errors">
+                    Please enter a valid name. It should only contain letters
                         </mat-error>
                     </mat-form-field><br>
 
                     <mat-form-field class="field">
                         <mat-label>Email</mat-label>
                         <input matInput type="email" placeholder="Email" formControlName="email" required [ngModel]="this.previousUserValue?.email">
-                        <mat-error *ngIf="userForm.get('email')?.invalid &&
-                    userForm.get('email')?.errors && 
-                    (userForm.get('email')?.dirty) ||  userForm.get('email')?.touched">
+                        <mat-error *ngIf="userForm.get('email')?.invalid ||
+                    userForm.get('email')?.errors ">
                             Please enter a valid email address
                         </mat-error>
-                        <mat-error *ngIf="!userForm.get('email')?.touched">
-                            Email is equired
-                        </mat-error>
-
                     </mat-form-field><br>
 
                     <mat-form-field class="field">
                         <mat-label>Password</mat-label>
                         <input matInput type="password" placeholder="Password" formControlName="password" required [ngModel]="this.previousUserValue?.password">
-                        <mat-error *ngIf="userForm.get('password')?.invalid &&
-                    userForm.get('password')?.errors && 
-                    (userForm.get('password')?.dirty) || userForm.get('password')?.touched">
-                            Please enter a valid password
-                        </mat-error>
-                        <mat-error *ngIf="!userForm.get('password')?.touched">
-                            Password is equired
+                        <mat-error *ngIf="userForm.get('password')?.invalid ||
+                    userForm.get('password')?.errors">
+                    Please enter a valid password. It should contain 8 or more characters with 1 capital letter,1 small letter, 1 number and 1 special characters
                         </mat-error>
                     </mat-form-field><br>
                     <mat-form-field class="field">
                         <mat-label>Choose your DOB</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" required >
+                        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" required  [ngModel]="this.previousUserValue?.dob">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                         <mat-error
                             *ngIf="!userForm.get('dateOfBirth')?.touched || userForm.get('dateOfBirth')?.invalid">
-                            DOB is equired
+                            DOB is required
                         </mat-error>
                     </mat-form-field><br><br>
 
                     <mat-label>Gender</mat-label> &nbsp;
-                    <mat-radio-group aria-label="Select an option" formControlName="gender" required class="field">
+                    <mat-radio-group aria-label="Select an option" formControlName="gender" [ngModel]="this.previousUserValue?.gender"required class="field">
                         <mat-radio-button value="Male" [checked]="isMale">Male</mat-radio-button>&nbsp;
                         <mat-radio-button value="Female" [checked]="isFemale">Female</mat-radio-button>
                     </mat-radio-group><br><br>
@@ -76,16 +55,15 @@
                     <mat-form-field class="field">
                         <mat-label>Phone Number</mat-label>
                         <input matInput type="number" placeholder="Phone Number" formControlName="number" required [ngModel]="this.previousUserValue?.number"><br>
-                        <mat-error *ngIf="userForm.get('number')?.invalid &&
-                    userForm.get('number')?.errors && 
-                    (userForm.get('number')?.dirty) ||  userForm.get('number')?.touched">Please enter a valid number
-                        </mat-error>
-                        <mat-error *ngIf="!userForm.get('number')?.touched">
-                            Phone Number is equired
+                        <mat-error *ngIf="userForm.get('number')?.invalid ||
+                    userForm.get('number')?.errors">Please enter a valid number. It should only be 10 digits
                         </mat-error>
                     </mat-form-field><br>
                     <div fxLayout="row" fxLayoutAlign="end center">
-                        <button mat-raised-button color="primary" type="submit">Update</button>
+                        <button mat-raised-button color="primary" type="submit" 
+                        [disabled]="userForm.get('name')?.invalid ||userForm.get('email')?.invalid || 
+                            userForm.get('password')?.invalid || userForm.get('dateOfBirth')?.invalid ||
+                            userForm.get('gender')?.invalid || userForm.get('number')?.invalid">Update</button>
                     </div>
                 </form>
             </div>

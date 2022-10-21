@@ -6,7 +6,7 @@ import { TableComponent } from './user/table/table.component';
 
 const routes: Routes = [
   {
-    path :"user", component : FormComponent,
+    path :"", component : FormComponent,
   },{
     path :"users", component : TableComponent
   },

@@ -8,43 +8,52 @@ import { Router } from '@angular/router';
   styleUrls: ['./table.component.scss']
 })
 
-
 export class TableComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'email', 'password', 'dob', 'gender', 'number', 'edit', 'delete'];
-  dataSource: IUser[] = [];
+  users: IUser[] = [];
   data: IUser[] = [];
 
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
 
     for (let i = 0; i < localStorage.length; i++) {
-      let x = localStorage.getItem(localStorage.key(i)!);
-      const value = localStorage.getItem(localStorage.key(i)!)
+      let value = localStorage.getItem(localStorage.key(i)!)
 
       if (typeof value === 'string') {
-        const parse: IUser = JSON.parse(value)
-        this.data.push(parse)
+        const user: IUser = JSON.parse(value);
+        user.dob = this.parseDOB(user?.dob)
+        this.data.push(user)
 
       }
     }
-    this.dataSource = this.data;
-
-    console.log(this.data);
-
+    this.users = this.data;
   }
+
   edit(id: string) {
     this.router.navigate(["update_user", id]);
   }
-  
+
   delete(id: string) {
-  {
-    console.log(id)
-    localStorage.removeItem(id);
-   // location.reload()
+    {
+      localStorage.removeItem(id);
+      location.reload()
+    }
   }
-}
+
+  parseDOB(dob: any) {
+    let date = new Date(dob);
+    let dd = date.getDate();
+    let mm = date.getMonth() + 1;
+    let yyyy = date.getFullYear();
+    let dobValue: string = dd + '/' + mm + '/' + yyyy;
+    return dobValue;
+  }
+
+  navigate()
+  {
+    this.router.navigate(["/"]);
+  }
 
 }

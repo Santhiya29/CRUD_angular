@@ -13,7 +13,6 @@ import { TableComponent } from './table/table.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import { EditComponent } from './edit/edit.component';
-import { DialogComponent } from './table/dialog/dialog.component';
 
 const modules = [
   CommonModule,
@@ -35,7 +34,6 @@ const modules = [
     FormComponent,
     TableComponent,
     EditComponent,
-    DialogComponent
   ],
   imports: [
     ...modules
