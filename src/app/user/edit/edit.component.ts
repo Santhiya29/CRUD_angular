@@ -1,30 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from 'src/app/models/User';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.scss']
 })
-
-export class FormComponent implements OnInit {
+export class EditComponent implements OnInit {
   isSubmitted: boolean = false;
+  isMale :boolean =false;
+  isFemale :boolean =false;
+  param: string = '';
+  previousUserValue: IUser = {
+    name: '',
+    email: '',
+    password: '',
+    dob: '',
+    gender: '',
+    number: '',
+  };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router) {
     this.isSubmitted = false;
-
   }
 
   name = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]*$')]);
-
   email = new FormControl('', [
     Validators.required,
     Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
 
   ])
 
-  gender = new FormControl('Male', [Validators.required]);
+  gender = new FormControl('', [Validators.required]);
   password = new FormControl('', [
     Validators.required,
     Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')
@@ -44,20 +53,13 @@ export class FormComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    //localStorage.clear()
-    let date = new Date("Fri Jun 22 2018 14:37:47 GMT+0530 (India Standard Time)");
-
-    let dd = date.getDate();
-    let mm = date.getMonth() + 1;
-    let yyyy = date.getFullYear();
-    
-    console.log(dd + "/" + mm + "/" + yyyy);
-  }
-  setValue() {
-    console.log(this.userForm.get('gender')?.value)
+    //this.userForm.valueChanges.subscribe(console.log)
+    this.route.params.subscribe((params: Params) => this.param = params['id']);
+    this.getUserDetails();
   }
 
   onSubmit(userForm: FormGroup) {
+
     let name: string = userForm.get('name')?.value;;
     let email: string = userForm.get('email')?.value;;
     let password: string = userForm.get('password')?.value;;
@@ -66,9 +68,8 @@ export class FormComponent implements OnInit {
     let y = x[1] + ' ' + x[2] + ' ' + x[3];
     let gender: string = userForm.get('gender')?.value;
     let number: string = userForm.get('number')?.value;
-    let userId = this.randomString();
     let user: IUser = {
-      id: userId,
+      id: this.param,
       name: name,
       email: email,
       password: password,
@@ -76,26 +77,27 @@ export class FormComponent implements OnInit {
       gender: gender,
       number: number
     }
-    localStorage.setItem(userId, JSON.stringify(user));
+    console.log(this.gender)
+    localStorage.setItem(this.param, JSON.stringify(user));
     this.isSubmitted = true;
 
-    console.log(dob);
-    console.log(x);
+    console.log(user);
 
   }
 
-  randomString() {
-    var length = 7;
-    var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var result = '';
-    for (var i = 0; i < length; i++) {
-      result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+  getUserDetails() {
+    if (this.param) {
+      const x = localStorage.getItem(this.param)!;
+      const user: IUser = JSON.parse(x);
+      this.previousUserValue = user;
+      this.isMale = this.previousUserValue.gender == 'Male'
+      this.isFemale = this.previousUserValue.gender == 'Female'
+      console.log(this.previousUserValue.gender)
     }
-    return result;
   }
 
   back() {
-    location.reload();
+    this.router.navigate(["users"]);
   }
 
 }

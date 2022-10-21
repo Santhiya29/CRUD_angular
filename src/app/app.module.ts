@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MaterialExampleModule } from 'src/material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MaterialExampleModule } from 'src/material.module';
     MatFormFieldModule,
     MatNativeDateModule,
     MaterialExampleModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent],

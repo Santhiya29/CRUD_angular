@@ -7,6 +7,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from "@angular/material/button";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import { TableComponent } from './table/table.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatIconModule} from '@angular/material/icon';
+import { EditComponent } from './edit/edit.component';
+import { DialogComponent } from './table/dialog/dialog.component';
 
 const modules = [
   CommonModule,
@@ -16,12 +23,19 @@ const modules = [
   MatInputModule,
   MatButtonModule,
   MatDatepickerModule,
-  MatRadioModule
+  MatRadioModule,
+  MatCardModule,
+  FlexLayoutModule,
+  MatTableModule,
+  MatIconModule
 ];
 
 @NgModule({
   declarations: [
-    FormComponent
+    FormComponent,
+    TableComponent,
+    EditComponent,
+    DialogComponent
   ],
   imports: [
     ...modules
